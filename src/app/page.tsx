@@ -5,6 +5,9 @@ import { Cloud, Shield, Zap, HardDrive, ArrowRight, Check } from "lucide-react";
 export const metadata = {
   title: "TeleStorage - Cloud Storage Berbasis Telegram",
   description: "Platform Cloud Storage SaaS berkecepatan tinggi dengan kapasitas tak terbatas menggunakan infrastruktur Telegram Cloud.",
+  alternates: {
+    canonical: "/",
+  },
 };
 
 export default async function LandingPage() {
@@ -223,8 +226,8 @@ export default async function LandingPage() {
             © {new Date().getFullYear()} TeleStorage. Hak cipta dilindungi. Telegram adalah merek dagang terdaftar Telegram FZ-LLC.
           </p>
           <div className="flex gap-4 text-xs text-zinc-500">
-            <a href="#" className="hover:text-zinc-400">Syarat Ketentuan</a>
-            <a href="#" className="hover:text-zinc-400">Kebijakan Privasi</a>
+            <span className="cursor-default">Syarat & Ketentuan</span>
+            <span className="cursor-default">Kebijakan Privasi</span>
           </div>
         </div>
       </footer>

@@ -6,6 +6,10 @@ import AdminClient from "./AdminClient";
 export const metadata = {
   title: "Admin Dashboard - TeleStorage",
   description: "Manajemen pengguna dan statistik platform TeleStorage.",
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 export default async function AdminPage() {

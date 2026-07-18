@@ -5,7 +5,7 @@ import { decrypt } from "@/lib/encryption";
 import { downloadFileFromTelegram } from "@/lib/telegram";
 
 export async function GET(
-  req: NextRequest,
+  _req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const user = await getAuthUser();
@@ -58,8 +58,9 @@ export async function GET(
       status: 200,
       headers,
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Download route error:", err);
-    return new NextResponse(err.message || "Gagal mengunduh file", { status: 500 });
+    const message = err instanceof Error ? err.message : "Gagal mengunduh file";
+    return new NextResponse(message, { status: 500 });
   }
 }

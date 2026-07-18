@@ -36,7 +36,6 @@ import {
   Send,
   Lock,
   Phone,
-  Settings,
 } from "lucide-react";
 
 interface FileItem {
@@ -205,9 +204,9 @@ export default function DashboardClient({ user, telegramSession, initialFiles }:
 
       // Add to local files list
       setFiles((prev) => [result.file, ...prev]);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
-      setUploadError(err.message || "Gagal mengupload file.");
+      setUploadError(err instanceof Error ? err.message : "Gagal mengupload file.");
     } finally {
       setIsUploading(false);
       // Clear file input
@@ -339,7 +338,7 @@ export default function DashboardClient({ user, telegramSession, initialFiles }:
               {wizardStep === 1 && (
                 <form onSubmit={handleSendOtp} className="flex flex-col gap-4">
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-zinc-400 text-xs font-semibold uppercase tracking-wider">
+                    <label htmlFor="phoneNumber" className="text-zinc-400 text-xs font-semibold uppercase tracking-wider">
                       Nomor Telepon Telegram
                     </label>
                     <div className="relative">
@@ -347,6 +346,7 @@ export default function DashboardClient({ user, telegramSession, initialFiles }:
                         <Phone className="w-4 h-4" />
                       </span>
                       <input
+                        id="phoneNumber"
                         type="text"
                         placeholder="+628123456789"
                         value={phoneNumber}
@@ -381,7 +381,7 @@ export default function DashboardClient({ user, telegramSession, initialFiles }:
               {wizardStep === 2 && (
                 <form onSubmit={handleVerifyOtp} className="flex flex-col gap-4">
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-zinc-400 text-xs font-semibold uppercase tracking-wider">
+                    <label htmlFor="otpCode" className="text-zinc-400 text-xs font-semibold uppercase tracking-wider">
                       Kode OTP Telegram
                     </label>
                     <div className="relative">
@@ -389,6 +389,7 @@ export default function DashboardClient({ user, telegramSession, initialFiles }:
                         <Lock className="w-4 h-4" />
                       </span>
                       <input
+                        id="otpCode"
                         type="text"
                         placeholder="Masukkan kode OTP"
                         value={otpCode}
@@ -428,7 +429,7 @@ export default function DashboardClient({ user, telegramSession, initialFiles }:
               {wizardStep === 3 && (
                 <form onSubmit={handleVerify2fa} className="flex flex-col gap-4">
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-zinc-400 text-xs font-semibold uppercase tracking-wider">
+                    <label htmlFor="password2fa" className="text-zinc-400 text-xs font-semibold uppercase tracking-wider">
                       Password 2FA Telegram
                     </label>
                     <div className="relative">
@@ -436,6 +437,7 @@ export default function DashboardClient({ user, telegramSession, initialFiles }:
                         <Lock className="w-4 h-4" />
                       </span>
                       <input
+                        id="password2fa"
                         type="password"
                         placeholder="Password dua langkah Anda"
                         value={password2fa}
@@ -510,8 +512,10 @@ export default function DashboardClient({ user, telegramSession, initialFiles }:
             <div className="bg-zinc-900/20 border border-zinc-900 rounded-2xl p-4 flex flex-col md:flex-row items-center justify-between gap-4">
               {/* Search */}
               <div className="relative w-full md:max-w-xs">
+                <label htmlFor="searchQuery" className="sr-only">Cari file</label>
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
                 <input
+                  id="searchQuery"
                   type="text"
                   placeholder="Cari file..."
                   value={searchQuery}

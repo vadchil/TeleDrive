@@ -1,21 +1,39 @@
-import jwt from "jsonwebtoken";
+import jwt, { type SignOptions } from "jsonwebtoken";
 import { cookies } from "next/headers";
 import { prisma } from "./db";
 
-const JWT_SECRET = process.env.JWT_SECRET || "super-secret-telestorage-platform-jwt-token-key-change-in-prod";
+function getJwtSecret(): string {
+  const secret = process.env.JWT_SECRET;
+  if (!secret) throw new Error("JWT_SECRET wajib diisi.");
+  return secret;
+}
 
 export interface SessionPayload {
   userId: string;
   role: string;
+  sessionVersion?: number;
 }
 
-export function signToken(payload: SessionPayload): string {
-  return jwt.sign(payload, JWT_SECRET, { expiresIn: "7d" });
+export function signToken(payload: SessionPayload, expiresIn: SignOptions["expiresIn"] = "7d"): string {
+  return jwt.sign(payload, getJwtSecret(), { algorithm: "HS256", expiresIn });
 }
 
 export function verifyToken(token: string): SessionPayload | null {
   try {
-    return jwt.verify(token, JWT_SECRET) as SessionPayload;
+    const payload = jwt.verify(token, getJwtSecret(), { algorithms: ["HS256"] });
+    if (
+      typeof payload === "string" ||
+      typeof payload.userId !== "string" ||
+      typeof payload.role !== "string" ||
+      (payload.sessionVersion !== undefined && typeof payload.sessionVersion !== "number")
+    ) {
+      return null;
+    }
+    return {
+      userId: payload.userId,
+      role: payload.role,
+      sessionVersion: payload.sessionVersion,
+    };
   } catch {
     return null;
   }
@@ -34,6 +52,9 @@ export async function getAuthUser() {
       where: { id: payload.userId },
       include: { telegramSession: true },
     });
+    if (!user || user.status !== "ACTIVE" || user.sessionVersion !== (payload.sessionVersion ?? 0)) {
+      return null;
+    }
     return user;
   } catch (err) {
     console.error("Error fetching auth user:", err);

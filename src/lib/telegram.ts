@@ -4,7 +4,9 @@ import { computeCheck } from "teleproto/Password";
 
 try {
   process.loadEnvFile();
-} catch {}
+} catch {
+  // Next.js already loads environment files at runtime.
+}
 
 const apiId = parseInt(process.env.TELEGRAM_API_ID || "0", 10);
 const apiHash = process.env.TELEGRAM_API_HASH || "";
@@ -21,12 +23,24 @@ export function getTelegramClient(sessionString = ""): TelegramClient {
   });
 }
 
+function saveSession(client: TelegramClient): string {
+  if (!(client.session instanceof StringSession)) {
+    throw new Error("Telegram client tidak menggunakan StringSession.");
+  }
+  return client.session.save();
+}
+
+function telegramErrorCode(error: unknown): string | null {
+  if (typeof error !== "object" || error === null || !("errorMessage" in error)) return null;
+  return typeof error.errorMessage === "string" ? error.errorMessage : null;
+}
+
 // 1. Send OTP
 export async function sendTelegramOtp(phoneNumber: string): Promise<{ phoneCodeHash: string; tempSessionString: string }> {
   const client = getTelegramClient("");
   await client.connect();
   const result = await client.sendCode({ apiId, apiHash }, phoneNumber);
-  const tempSessionString = (client.session as any).save() as string;
+  const tempSessionString = saveSession(client);
   return {
     phoneCodeHash: result.phoneCodeHash,
     tempSessionString,
@@ -50,10 +64,10 @@ export async function verifyTelegramOtp(
         phoneCode,
       })
     );
-    const sessionString = (client.session as any).save() as string;
+    const sessionString = saveSession(client);
     return { sessionString, requires2fa: false };
-  } catch (err: any) {
-    if (err.errorMessage === "SESSION_PASSWORD_NEEDED") {
+  } catch (err: unknown) {
+    if (telegramErrorCode(err) === "SESSION_PASSWORD_NEEDED") {
       return { sessionString: tempSessionString, requires2fa: true };
     }
     throw err;
@@ -74,7 +88,7 @@ export async function verifyTelegram2fa(
       password: passwordSrpCheck,
     })
   );
-  const sessionString = (client.session as any).save() as string;
+  const sessionString = saveSession(client);
   return { sessionString };
 }
 
@@ -175,17 +189,14 @@ export async function downloadFileFromTelegram(
   let fileName = "file";
   let mimeType = "application/octet-stream";
 
-  const media = msg.media as any;
-  if (media.document) {
+  const media = msg.media;
+  if (media instanceof Api.MessageMediaDocument && media.document instanceof Api.Document) {
     mimeType = media.document.mimeType || mimeType;
-    if (media.document.attributes) {
-      for (const attr of media.document.attributes) {
-        if (attr.className === "DocumentAttributeFilename" || attr.fileName) {
-          fileName = attr.fileName || fileName;
-          break;
-        }
-      }
-    }
+    const filename = media.document.attributes.find(
+      (attribute): attribute is Api.DocumentAttributeFilename =>
+        attribute instanceof Api.DocumentAttributeFilename,
+    );
+    if (filename) fileName = filename.fileName;
   }
 
   return {

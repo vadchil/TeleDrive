@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { toggleUserStatusAction, deleteUserAction } from "../actions";
 import {
   Users,
@@ -36,7 +35,6 @@ interface AdminClientProps {
 }
 
 export default function AdminClient({ users, currentAdminId }: AdminClientProps) {
-  const router = useRouter();
   const [usersList, setUsersList] = useState<SerializedUser[]>(users);
   const [searchQuery, setSearchQuery] = useState("");
   const [loadingId, setLoadingId] = useState<string | null>(null);
@@ -157,8 +155,10 @@ export default function AdminClient({ users, currentAdminId }: AdminClientProps)
         {/* Filters */}
         <div className="bg-zinc-900/20 border border-zinc-900 rounded-2xl p-4 flex items-center justify-between">
           <div className="relative w-full max-w-xs">
+            <label htmlFor="searchQuery" className="sr-only">Cari pengguna berdasarkan nama atau email</label>
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
             <input
+              id="searchQuery"
               type="text"
               placeholder="Cari pengguna berdasarkan nama/email..."
               value={searchQuery}

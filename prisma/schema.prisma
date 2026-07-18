@@ -5,18 +5,31 @@ datasource db {
 
 generator client {
   provider = "prisma-client-js"
+  output   = "../src/generated/client"
 }
 
 model User {
-  id              String           @id @default(uuid())
-  name            String
-  email           String           @unique
-  password        String
-  role            String           @default("USER") // USER, ADMIN
-  status          String           @default("ACTIVE") // ACTIVE, BANNED
-  createdAt       DateTime         @default(now())
-  telegramSession TelegramSession?
-  files           File[]
+  id                  String               @id @default(uuid())
+  name                String
+  email               String               @unique
+  password            String
+  role                String               @default("USER") // USER, ADMIN
+  status              String               @default("ACTIVE") // ACTIVE, BANNED
+  sessionVersion      Int                  @default(0)
+  createdAt           DateTime             @default(now())
+  telegramSession     TelegramSession?
+  files               File[]
+  passwordResetTokens PasswordResetToken[]
+}
+
+model PasswordResetToken {
+  tokenHash String   @id @db.Char(64)
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([expiresAt])
 }
 
 model TelegramSession {

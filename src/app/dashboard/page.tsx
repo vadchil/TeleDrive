@@ -6,6 +6,10 @@ import DashboardClient from "./DashboardClient";
 export const metadata = {
   title: "Dashboard - TeleStorage",
   description: "Kelola file Anda yang tersimpan di Telegram Cloud.",
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 export default async function DashboardPage() {

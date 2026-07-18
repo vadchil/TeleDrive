@@ -3,6 +3,7 @@ import { getAuthUser } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { decrypt } from "@/lib/encryption";
 import { uploadFileToTelegram } from "@/lib/telegram";
+import { sanitizeFileName } from "@/lib/password";
 
 export async function POST(req: NextRequest) {
   const user = await getAuthUser();
@@ -25,7 +26,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "File tidak ditemukan dalam request." }, { status: 400 });
     }
 
-    const fileName = file.name;
+    const fileName = sanitizeFileName(file.name);
     const fileSize = file.size;
     const mimeType = file.type || "application/octet-stream";
 
@@ -65,8 +66,9 @@ export async function POST(req: NextRequest) {
     };
 
     return NextResponse.json({ success: true, file: serializedFile });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Upload route error:", err);
-    return NextResponse.json({ error: err.message || "Terjadi kesalahan saat mengupload file." }, { status: 500 });
+    const message = err instanceof Error ? err.message : "Terjadi kesalahan saat mengupload file.";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

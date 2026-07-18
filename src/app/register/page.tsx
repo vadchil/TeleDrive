@@ -19,13 +19,18 @@ export default function RegisterPage() {
     const formData = new FormData(e.currentTarget);
 
     startTransition(async () => {
-      const res = await registerAction(null, formData);
-      if (res?.error) {
-        setError(res.error);
+      try {
+        const res = await registerAction(null, formData);
+        if (res?.error) {
+          setError(res.error);
+        } else if (res?.success) {
+          router.push("/dashboard");
+          router.refresh();
+        }
+      } catch {
+        setError("Terjadi kesalahan saat pendaftaran.");
+      } finally {
         setLoading(false);
-      } else if (res?.success) {
-        router.push("/dashboard");
-        router.refresh();
       }
     });
   };
@@ -52,7 +57,7 @@ export default function RegisterPage() {
 
         {/* Error Message */}
         {error && (
-          <div className="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-medium">
+          <div role="alert" className="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-medium">
             {error}
           </div>
         )}
@@ -109,11 +114,14 @@ export default function RegisterPage() {
                 id="password"
                 name="password"
                 type="password"
+                autoComplete="new-password"
+                minLength={12}
                 placeholder="••••••••"
                 required
                 className="w-full pl-10 pr-4 py-3 bg-zinc-950/80 border border-zinc-800 rounded-xl text-sm placeholder:text-zinc-600 focus:outline-none focus:border-blue-500/80 transition-colors"
               />
             </div>
+            <p className="text-xs text-zinc-600">Minimal 12 karakter, mengandung huruf dan angka.</p>
           </div>
 
           <div className="flex flex-col gap-1.5">
@@ -128,6 +136,8 @@ export default function RegisterPage() {
                 id="confirmPassword"
                 name="confirmPassword"
                 type="password"
+                autoComplete="new-password"
+                minLength={12}
                 placeholder="••••••••"
                 required
                 className="w-full pl-10 pr-4 py-3 bg-zinc-950/80 border border-zinc-800 rounded-xl text-sm placeholder:text-zinc-600 focus:outline-none focus:border-blue-500/80 transition-colors"

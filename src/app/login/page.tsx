@@ -19,13 +19,18 @@ export default function LoginPage() {
     const formData = new FormData(e.currentTarget);
 
     startTransition(async () => {
-      const res = await loginAction(null, formData);
-      if (res?.error) {
-        setError(res.error);
+      try {
+        const res = await loginAction(null, formData);
+        if (res?.error) {
+          setError(res.error);
+        } else if (res?.success) {
+          router.push("/dashboard");
+          router.refresh();
+        }
+      } catch {
+        setError("Terjadi kesalahan saat masuk.");
+      } finally {
         setLoading(false);
-      } else if (res?.success) {
-        router.push("/dashboard");
-        router.refresh();
       }
     });
   };
@@ -52,7 +57,7 @@ export default function LoginPage() {
 
         {/* Error Message */}
         {error && (
-          <div className="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-medium">
+          <div role="alert" className="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-medium">
             {error}
           </div>
         )}
@@ -106,7 +111,7 @@ export default function LoginPage() {
               />
               Ingat Saya
             </label>
-            <Link href="#" className="text-blue-500 hover:text-blue-400 font-medium transition-colors">
+            <Link href="/forgot-password" className="text-blue-500 hover:text-blue-400 font-medium transition-colors">
               Lupa Password?
             </Link>
           </div>
