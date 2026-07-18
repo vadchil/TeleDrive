@@ -1,7 +1,7 @@
+process.loadEnvFile();
+
 import { encrypt, decrypt } from "../lib/encryption";
 import { getTelegramClient } from "../lib/telegram";
-
-process.loadEnvFile();
 
 async function runTest() {
   console.log("=== TELESTORAGE TESTING SCRIPT ===");

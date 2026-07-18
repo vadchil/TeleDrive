@@ -102,7 +102,7 @@ export default function AdminClient({ users, currentAdminId }: AdminClientProps)
         <div className="flex items-center gap-3 sm:gap-4">
           <Link
             href="/dashboard"
-            className="p-1.5 sm:p-2 rounded-lg border border-zinc-900 hover:border-zinc-800 text-zinc-400 hover:text-zinc-200 transition-all"
+            className="p-1.5 sm:p-2 rounded-lg border border-zinc-900 hover:border-zinc-800 text-zinc-400 hover:text-zinc-200 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 focus:outline-hidden transition-all"
             title="Kembali ke Dashboard"
           >
             <ArrowLeft className="w-4 h-4" />
@@ -123,37 +123,37 @@ export default function AdminClient({ users, currentAdminId }: AdminClientProps)
       <main className="flex-grow max-w-7xl w-full mx-auto p-6 flex flex-col gap-6">
         {/* Stat Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-zinc-900/30 border border-zinc-900 rounded-2xl p-6 flex items-center gap-4">
+          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 flex items-center gap-4">
             <div className="p-3 bg-blue-500/10 border border-blue-500/20 rounded-xl text-blue-400">
               <Users className="w-6 h-6" />
             </div>
             <div className="flex flex-col">
-              <span className="text-zinc-500 text-xs font-bold uppercase tracking-wider">Total Pengguna</span>
+              <span className="text-zinc-400 text-xs font-bold uppercase tracking-wider">Total Pengguna</span>
               <span className="text-3xl font-extrabold">{totalUsers}</span>
             </div>
           </div>
-          <div className="bg-zinc-900/30 border border-zinc-900 rounded-2xl p-6 flex items-center gap-4">
+          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 flex items-center gap-4">
             <div className="p-3 bg-indigo-500/10 border border-indigo-500/20 rounded-xl text-indigo-400">
               <File className="w-6 h-6" />
             </div>
             <div className="flex flex-col">
-              <span className="text-zinc-500 text-xs font-bold uppercase tracking-wider">Total File Terupload</span>
+              <span className="text-zinc-400 text-xs font-bold uppercase tracking-wider">Total File Terupload</span>
               <span className="text-3xl font-extrabold">{totalFiles}</span>
             </div>
           </div>
-          <div className="bg-zinc-900/30 border border-zinc-900 rounded-2xl p-6 flex items-center gap-4">
+          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 flex items-center gap-4">
             <div className="p-3 bg-violet-500/10 border border-violet-500/20 rounded-xl text-violet-400">
               <HardDrive className="w-6 h-6" />
             </div>
             <div className="flex flex-col">
-              <span className="text-zinc-500 text-xs font-bold uppercase tracking-wider">Total Storage Platform</span>
+              <span className="text-zinc-400 text-xs font-bold uppercase tracking-wider">Total Storage Platform</span>
               <span className="text-3xl font-extrabold">{formatBytes(totalSize)}</span>
             </div>
           </div>
         </div>
 
         {/* Filters */}
-        <div className="bg-zinc-900/20 border border-zinc-900 rounded-2xl p-4 flex items-center justify-between">
+        <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-4 flex items-center justify-between">
           <div className="relative w-full max-w-xs">
             <label htmlFor="searchQuery" className="sr-only">Cari pengguna berdasarkan nama atau email</label>
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
@@ -163,17 +163,17 @@ export default function AdminClient({ users, currentAdminId }: AdminClientProps)
               placeholder="Cari pengguna berdasarkan nama/email..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-zinc-950/80 border border-zinc-800 rounded-xl text-sm placeholder:text-zinc-600 focus:outline-none focus:border-blue-500/80 transition-colors"
+              className="w-full pl-10 pr-4 py-2 bg-zinc-950 border border-zinc-800 rounded-xl text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-hidden focus:border-blue-500 focus:ring-2 focus:ring-blue-500/40 transition-colors"
             />
           </div>
         </div>
 
         {/* User Table */}
-        <div className="bg-zinc-900/10 border border-zinc-900 rounded-2xl overflow-hidden overflow-x-auto">
+        <div className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden overflow-x-auto">
           <div className="min-w-[800px] md:min-w-full">
             <table className="w-full text-left text-sm text-zinc-400 border-collapse">
               <thead>
-                <tr className="border-b border-zinc-900 text-zinc-500 text-xs font-semibold bg-zinc-950/40">
+                <tr className="border-b border-zinc-900 text-zinc-400 text-xs font-semibold bg-zinc-950/40">
                   <th className="p-4">Pengguna</th>
                   <th className="p-4">Registrasi</th>
                   <th className="p-4">Role</th>
@@ -196,19 +196,19 @@ export default function AdminClient({ users, currentAdminId }: AdminClientProps)
                       <td className="p-4">
                         <div className="flex flex-col">
                           <span className="font-semibold text-zinc-200">{u.name}</span>
-                          <span className="text-xs text-zinc-500">{u.email}</span>
+                          <span className="text-xs text-zinc-400">{u.email}</span>
                         </div>
                       </td>
-                      <td className="p-4 text-zinc-500 text-xs">
+                      <td className="p-4 text-zinc-400 text-xs">
                         {new Date(u.createdAt).toLocaleDateString("id-ID")}
                       </td>
                       <td className="p-4">
-                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${u.role === "ADMIN" ? "bg-red-500/10 border border-red-500/20 text-red-400" : "bg-zinc-800 text-zinc-400"}`}>
+                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${u.role === "ADMIN" ? "bg-red-500/10 border border-red-500/20 text-red-400" : "bg-zinc-950 border border-zinc-800 text-zinc-300"}`}>
                           {u.role}
                         </span>
                       </td>
                       <td className="p-4">
-                        <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full flex items-center gap-1 w-fit ${u.telegramConnected ? "bg-blue-500/10 border border-blue-500/20 text-blue-400" : "bg-zinc-800 text-zinc-500"}`}>
+                        <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full flex items-center gap-1 w-fit ${u.telegramConnected ? "bg-blue-500/10 border border-blue-500/20 text-blue-400" : "bg-zinc-950 border border-zinc-800 text-zinc-400"}`}>
                           {u.telegramConnected ? (
                             <>
                               <CheckCircle2 className="w-3 h-3" /> Connected
@@ -228,7 +228,7 @@ export default function AdminClient({ users, currentAdminId }: AdminClientProps)
                       <td className="p-4">
                         <div className="flex flex-col gap-0.5 text-xs text-zinc-400">
                           <span>{u.totalFiles} file</span>
-                          <span className="text-[10px] text-zinc-500">{formatBytes(u.totalSize)}</span>
+                          <span className="text-[10px] text-zinc-400">{formatBytes(u.totalSize)}</span>
                         </div>
                       </td>
                       <td className="p-4 text-right">
@@ -238,7 +238,7 @@ export default function AdminClient({ users, currentAdminId }: AdminClientProps)
                               <button
                                 onClick={() => handleToggleStatus(u.id)}
                                 disabled={loadingId === u.id}
-                                className={`p-1.5 rounded-lg border transition-all text-xs font-semibold ${u.status === "ACTIVE" ? "bg-amber-500/10 hover:bg-amber-500/20 border-amber-500/20 text-amber-400" : "bg-emerald-500/10 hover:bg-emerald-500/20 border-emerald-500/20 text-emerald-400"}`}
+                                className={`p-1.5 rounded-lg border transition-all text-xs font-semibold focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 focus:outline-hidden ${u.status === "ACTIVE" ? "bg-amber-500/10 hover:bg-amber-500/20 border-amber-500/20 text-amber-400" : "bg-emerald-500/10 hover:bg-emerald-500/20 border-emerald-500/20 text-emerald-400"}`}
                                 title={u.status === "ACTIVE" ? "Ban User" : "Activate User"}
                               >
                                 {u.status === "ACTIVE" ? <UserX className="w-3.5 h-3.5" /> : <UserCheck className="w-3.5 h-3.5" />}
@@ -246,7 +246,7 @@ export default function AdminClient({ users, currentAdminId }: AdminClientProps)
                               <button
                                 onClick={() => handleDeleteUser(u.id)}
                                 disabled={loadingId === u.id}
-                                className="p-1.5 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 text-red-400 rounded-lg transition-all"
+                                className="p-1.5 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 text-red-400 focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 focus:outline-hidden rounded-lg transition-all"
                                 title="Hapus Akun User"
                               >
                                 <Trash2 className="w-3.5 h-3.5" />

@@ -13,12 +13,12 @@ export function ResetPasswordForm({ token }: { token: string }) {
 
   if (state?.success) {
     return (
-      <div role="status" aria-live="polite" className="text-center">
+      <div role="status" aria-live="polite" className="text-center bg-green-500/10 border border-green-500/20 p-6 rounded-xl">
         <CheckCircle2 className="w-12 h-12 text-green-400 mx-auto mb-4" />
-        <p className="text-green-400 font-medium">{state.message}</p>
+        <p className="text-green-200 font-medium">{state.message}</p>
         <Link
           href="/login"
-          className="mt-6 inline-flex items-center gap-2 text-blue-500 hover:text-blue-400 font-medium transition-colors"
+          className="mt-6 inline-flex items-center gap-2 text-blue-500 hover:text-blue-400 font-medium focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-900 focus:outline-hidden rounded px-1 transition-colors"
         >
           Masuk Sekarang <ArrowRight className="w-4 h-4" />
         </Link>
@@ -31,7 +31,7 @@ export function ResetPasswordForm({ token }: { token: string }) {
       {state?.error && (
         <div
           role="alert"
-          className="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-medium"
+          className="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-200 text-sm font-medium"
         >
           {state.error}
         </div>
@@ -55,10 +55,10 @@ export function ResetPasswordForm({ token }: { token: string }) {
               autoComplete="new-password"
               minLength={12}
               required
-              className="w-full pl-10 pr-4 py-3 bg-zinc-950/80 border border-zinc-800 rounded-xl text-sm placeholder:text-zinc-600 focus:outline-none focus:border-blue-500/80 transition-colors"
+              className="w-full pl-10 pr-4 py-3 bg-zinc-950 border border-zinc-800 rounded-xl text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-hidden focus:border-blue-500 focus:ring-2 focus:ring-blue-500/40 transition-colors"
             />
           </div>
-          <p className="text-xs text-zinc-600">Minimal 12 karakter, mengandung huruf dan angka.</p>
+          <p className="text-xs text-zinc-400">Minimal 12 karakter, mengandung huruf dan angka.</p>
         </div>
 
         <div className="flex flex-col gap-1.5">
@@ -76,7 +76,7 @@ export function ResetPasswordForm({ token }: { token: string }) {
               autoComplete="new-password"
               minLength={12}
               required
-              className="w-full pl-10 pr-4 py-3 bg-zinc-950/80 border border-zinc-800 rounded-xl text-sm placeholder:text-zinc-600 focus:outline-none focus:border-blue-500/80 transition-colors"
+              className="w-full pl-10 pr-4 py-3 bg-zinc-950 border border-zinc-800 rounded-xl text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-hidden focus:border-blue-500 focus:ring-2 focus:ring-blue-500/40 transition-colors"
             />
           </div>
         </div>
@@ -84,7 +84,7 @@ export function ResetPasswordForm({ token }: { token: string }) {
         <button
           type="submit"
           disabled={pending}
-          className="w-full py-3 rounded-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-lg shadow-blue-500/10 hover:shadow-blue-500/20 active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-55 disabled:cursor-not-allowed"
+          className="w-full py-3 rounded-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-lg shadow-blue-500/10 hover:shadow-blue-500/20 active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-900 focus:outline-hidden transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-55 disabled:cursor-not-allowed"
         >
           {pending ? (
             <>
@@ -99,7 +99,7 @@ export function ResetPasswordForm({ token }: { token: string }) {
       </form>
 
       <div className="text-center mt-8 text-sm">
-        <Link href="/login" className="inline-flex items-center gap-2 text-blue-500 hover:text-blue-400 font-medium transition-colors">
+        <Link href="/login" className="inline-flex items-center gap-2 text-blue-500 hover:text-blue-400 font-medium focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-900 focus:outline-hidden rounded px-1 transition-colors">
           <ArrowLeft className="w-4 h-4" /> Kembali ke login
         </Link>
       </div>

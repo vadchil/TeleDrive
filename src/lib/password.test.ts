@@ -1,5 +1,10 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+
+try {
+  process.loadEnvFile();
+} catch {}
+
 import {
   createResetToken,
   hashResetToken,
@@ -8,6 +13,7 @@ import {
   validatePassword,
   sanitizeFileName,
 } from "./password";
+import { encrypt, decrypt } from "./encryption";
 
 test("reset token memakai 256-bit raw token dan SHA-256 hash", () => {
   const { token, tokenHash } = createResetToken();
@@ -38,4 +44,31 @@ test("nama file disanitasi", () => {
   assert.equal(sanitizeFileName(""), "unnamed_file");
   assert.equal(sanitizeFileName(".../test.txt"), "test.txt");
 });
+
+test("enkripsi dan dekripsi mendukung format baru (GCM) dan format lama (CBC)", () => {
+  const plain = "rahasia-telegram-session-string-12345";
+
+  // 1. GCM (Format Baru - 3 bagian)
+  const encryptedGcm = encrypt(plain);
+  assert.equal(encryptedGcm.split(":").length, 3);
+  assert.equal(decrypt(encryptedGcm), plain);
+
+  // 2. CBC (Format Lama - 2 bagian)
+  // Meniru format enkripsi lama aes-256-cbc
+  const crypto = require("crypto");
+  const key = Buffer.concat([Buffer.from(process.env.ENCRYPTION_KEY!)], 32);
+  const iv = crypto.randomBytes(16);
+  const cipher = crypto.createCipheriv("aes-256-cbc", key, iv);
+  let oldEncrypted = cipher.update(plain, "utf8", "hex");
+  oldEncrypted += cipher.final("hex");
+  const legacyFormat = iv.toString("hex") + ":" + oldEncrypted;
+
+  assert.equal(legacyFormat.split(":").length, 2);
+  assert.equal(decrypt(legacyFormat), plain);
+
+  // 3. Format Tidak Valid
+  assert.throws(() => decrypt("hanya-satu-bagian"), /Invalid encrypted format/);
+  assert.throws(() => decrypt("bagian1:bagian2:bagian3:bagian4"), /Invalid encrypted format/);
+});
+
 

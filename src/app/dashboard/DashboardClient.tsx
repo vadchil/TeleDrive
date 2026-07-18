@@ -281,7 +281,7 @@ export default function DashboardClient({ user, telegramSession, initialFiles }:
           {user.role === "ADMIN" && (
             <Link
               href="/admin"
-              className="text-xs font-semibold px-2.5 sm:px-3 py-1.5 bg-blue-500/10 border border-blue-500/20 text-blue-400 rounded-lg hover:bg-blue-500/20 transition-all duration-200"
+              className="text-xs font-semibold px-2.5 sm:px-3 py-1.5 bg-blue-500/10 border border-blue-500/20 hover:border-blue-500/30 text-blue-400 rounded-lg hover:bg-blue-500/20 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 focus:outline-hidden transition-all duration-200"
             >
               Admin Area
             </Link>
@@ -293,7 +293,7 @@ export default function DashboardClient({ user, telegramSession, initialFiles }:
           <button
             onClick={handleLogout}
             disabled={isPending}
-            className="p-1.5 sm:p-2 rounded-lg border border-zinc-900 hover:border-zinc-800 text-zinc-400 hover:text-zinc-200 transition-colors duration-200 disabled:opacity-50"
+            className="p-1.5 sm:p-2 rounded-lg border border-zinc-900 hover:border-zinc-800 text-zinc-400 hover:text-zinc-200 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 focus:outline-hidden transition-colors duration-200 disabled:opacity-50"
             title="Keluar"
           >
             {isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <LogOut className="w-4 h-4" />}
@@ -306,29 +306,29 @@ export default function DashboardClient({ user, telegramSession, initialFiles }:
         {/* If Telegram not connected: Show Setup Wizard */}
         {!telegramSession ? (
           <div className="max-w-xl w-full mx-auto mt-10">
-            <div className="bg-zinc-900/40 border border-zinc-800/80 backdrop-blur-md rounded-2xl p-8 shadow-2xl">
+            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-8 shadow-2xl">
               <div className="text-center mb-8">
                 <div className="w-12 h-12 rounded-full bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mx-auto text-blue-400 mb-4">
-                  <Hash className="w-6 h-6 animate-pulse" />
+                  <Hash className="w-6 h-6 motion-safe:animate-pulse" />
                 </div>
                 <h2 className="text-2xl font-bold tracking-tight">Hubungkan Akun Telegram</h2>
-                <p className="text-zinc-500 text-sm mt-2">
+                <p className="text-zinc-400 text-sm mt-2">
                   TeleStorage memerlukan integrasi akun Telegram Anda untuk menyimpan file sebagai database awan.
                 </p>
               </div>
 
               {/* Wizard Progress Line */}
               <div className="flex items-center justify-center gap-2 mb-8">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${wizardStep >= 1 ? "bg-blue-600 text-white" : "bg-zinc-800 text-zinc-500"}`}>1</div>
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${wizardStep >= 1 ? "bg-blue-600 text-white" : "bg-zinc-950 border border-zinc-800 text-zinc-400"}`}>1</div>
                 <div className={`h-[2px] w-8 ${wizardStep >= 2 ? "bg-blue-600" : "bg-zinc-800"}`} />
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${wizardStep >= 2 ? "bg-blue-600 text-white" : "bg-zinc-800 text-zinc-500"}`}>2</div>
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${wizardStep >= 2 ? "bg-blue-600 text-white" : "bg-zinc-950 border border-zinc-800 text-zinc-400"}`}>2</div>
                 <div className={`h-[2px] w-8 ${wizardStep === 3 ? "bg-blue-600" : "bg-zinc-800"}`} />
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${wizardStep === 3 ? "bg-blue-600 text-white" : "bg-zinc-800 text-zinc-500"}`}>3</div>
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${wizardStep === 3 ? "bg-blue-600 text-white" : "bg-zinc-950 border border-zinc-800 text-zinc-400"}`}>3</div>
               </div>
 
               {/* Wizard Errors */}
               {wizardError && (
-                <div className="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm flex items-start gap-2">
+                <div className="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-200 text-sm flex items-start gap-2">
                   <AlertCircle className="w-5 h-5 shrink-0" />
                   <span>{wizardError}</span>
                 </div>
@@ -352,17 +352,17 @@ export default function DashboardClient({ user, telegramSession, initialFiles }:
                         value={phoneNumber}
                         onChange={(e) => setPhoneNumber(e.target.value)}
                         required
-                        className="w-full pl-10 pr-4 py-3 bg-zinc-950/80 border border-zinc-800 rounded-xl text-sm placeholder:text-zinc-600 focus:outline-none focus:border-blue-500/80 transition-colors"
+                        className="w-full pl-10 pr-4 py-3 bg-zinc-950 border border-zinc-800 rounded-xl text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-hidden focus:border-blue-500 focus:ring-2 focus:ring-blue-500/40 transition-colors"
                       />
                     </div>
-                    <span className="text-[11px] text-zinc-500">
+                    <span className="text-[11px] text-zinc-400">
                       Gunakan format kode negara (internasional), contoh: +62 untuk Indonesia.
                     </span>
                   </div>
                   <button
                     type="submit"
                     disabled={wizardLoading}
-                    className="w-full py-3 rounded-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-lg shadow-blue-500/10 hover:shadow-blue-500/20 transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50"
+                    className="w-full py-3 rounded-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-lg shadow-blue-500/10 hover:shadow-blue-500/20 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-900 focus:outline-hidden transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50"
                   >
                     {wizardLoading ? (
                       <>
@@ -395,10 +395,10 @@ export default function DashboardClient({ user, telegramSession, initialFiles }:
                         value={otpCode}
                         onChange={(e) => setOtpCode(e.target.value)}
                         required
-                        className="w-full pl-10 pr-4 py-3 bg-zinc-950/80 border border-zinc-800 rounded-xl text-sm placeholder:text-zinc-600 focus:outline-none focus:border-blue-500/80 transition-colors"
+                        className="w-full pl-10 pr-4 py-3 bg-zinc-950 border border-zinc-800 rounded-xl text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-hidden focus:border-blue-500 focus:ring-2 focus:ring-blue-500/40 transition-colors"
                       />
                     </div>
-                    <span className="text-[11px] text-zinc-500">
+                    <span className="text-[11px] text-zinc-400">
                       Telegram mengirimkan OTP ke aplikasi Telegram Anda atau via SMS.
                     </span>
                   </div>
@@ -406,14 +406,14 @@ export default function DashboardClient({ user, telegramSession, initialFiles }:
                     <button
                       type="button"
                       onClick={() => setWizardStep(1)}
-                      className="w-1/3 py-3 rounded-xl font-semibold bg-zinc-950 border border-zinc-800 hover:border-zinc-700 transition-all text-center text-sm"
+                      className="w-1/3 py-3 rounded-xl font-semibold bg-zinc-950 border border-zinc-800 hover:border-zinc-700 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-900 focus:outline-hidden transition-all text-center text-sm"
                     >
                       Kembali
                     </button>
                     <button
                       type="submit"
                       disabled={wizardLoading}
-                      className="w-2/3 py-3 rounded-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-lg flex items-center justify-center gap-2 disabled:opacity-50"
+                      className="w-2/3 py-3 rounded-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-lg focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-900 focus:outline-hidden flex items-center justify-center gap-2 disabled:opacity-50"
                     >
                       {wizardLoading ? (
                         <Loader2 className="w-4 h-4 animate-spin" />
@@ -443,17 +443,17 @@ export default function DashboardClient({ user, telegramSession, initialFiles }:
                         value={password2fa}
                         onChange={(e) => setPassword2fa(e.target.value)}
                         required
-                        className="w-full pl-10 pr-4 py-3 bg-zinc-950/80 border border-zinc-800 rounded-xl text-sm placeholder:text-zinc-600 focus:outline-none focus:border-blue-500/80 transition-colors"
+                        className="w-full pl-10 pr-4 py-3 bg-zinc-950 border border-zinc-800 rounded-xl text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-hidden focus:border-blue-500 focus:ring-2 focus:ring-blue-500/40 transition-colors"
                       />
                     </div>
-                    <span className="text-[11px] text-zinc-500">
+                    <span className="text-[11px] text-zinc-400">
                       Akun Anda dilindungi 2-step verification. Masukkan password tambahan Anda.
                     </span>
                   </div>
                   <button
                     type="submit"
                     disabled={wizardLoading}
-                    className="w-full py-3 rounded-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-lg flex items-center justify-center gap-2 disabled:opacity-50"
+                    className="w-full py-3 rounded-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-lg focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-900 focus:outline-hidden flex items-center justify-center gap-2 disabled:opacity-50"
                   >
                     {wizardLoading ? (
                       <Loader2 className="w-4 h-4 animate-spin" />
@@ -470,29 +470,29 @@ export default function DashboardClient({ user, telegramSession, initialFiles }:
           <>
             {/* Stats Overview */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-zinc-900/30 border border-zinc-900 rounded-2xl p-6 flex flex-col gap-1">
-                <span className="text-zinc-500 text-xs font-bold uppercase tracking-wider">Total File</span>
+              <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 flex flex-col gap-1">
+                <span className="text-zinc-400 text-xs font-bold uppercase tracking-wider">Total File</span>
                 <span className="text-3xl font-extrabold">{files.length}</span>
-                <span className="text-xs text-zinc-500 mt-2">File tersimpan aman</span>
+                <span className="text-xs text-zinc-400 mt-2">File tersimpan aman</span>
               </div>
-              <div className="bg-zinc-900/30 border border-zinc-900 rounded-2xl p-6 flex flex-col gap-1">
-                <span className="text-zinc-500 text-xs font-bold uppercase tracking-wider">Kapasitas Terpakai</span>
+              <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 flex flex-col gap-1">
+                <span className="text-zinc-400 text-xs font-bold uppercase tracking-wider">Kapasitas Terpakai</span>
                 <span className="text-3xl font-extrabold">{formatBytes(totalUsedStorage)}</span>
-                <span className="text-xs text-blue-500 mt-2 font-semibold">Kapasitas Telegram: Unlimited</span>
+                <span className="text-xs text-blue-400 mt-2 font-semibold">Kapasitas Telegram: Unlimited</span>
               </div>
-              <div className="bg-zinc-900/30 border border-zinc-900 rounded-2xl p-6 flex items-center justify-between">
+              <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 flex items-center justify-between">
                 <div className="flex flex-col gap-1">
-                  <span className="text-zinc-500 text-xs font-bold uppercase tracking-wider">Koneksi Telegram</span>
+                  <span className="text-zinc-400 text-xs font-bold uppercase tracking-wider">Koneksi Telegram</span>
                   <span className="text-sm font-semibold text-emerald-400 mt-1 flex items-center gap-1.5">
                     <CheckCircle2 className="w-4 h-4" /> Connected
                   </span>
-                  <span className="text-xs text-zinc-500 mt-1 max-w-[150px] truncate">
+                  <span className="text-xs text-zinc-400 mt-1 max-w-[150px] truncate">
                     {telegramSession.phoneNumber}
                   </span>
                 </div>
                 <button
                   onClick={handleDisconnect}
-                  className="p-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-xl border border-red-500/20 transition-all duration-200 text-xs font-bold"
+                  className="p-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-xl border border-red-500/20 focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 focus:outline-hidden transition-all duration-200 text-xs font-bold"
                   title="Disconnect Telegram"
                 >
                   Disconnect
@@ -502,14 +502,14 @@ export default function DashboardClient({ user, telegramSession, initialFiles }:
 
             {/* Upload status / error bar */}
             {uploadError && (
-              <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm flex items-center gap-2">
+              <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-200 text-sm flex items-center gap-2">
                 <AlertCircle className="w-5 h-5 shrink-0" />
                 <span>{uploadError}</span>
               </div>
             )}
 
             {/* File manager controls */}
-            <div className="bg-zinc-900/20 border border-zinc-900 rounded-2xl p-4 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-4 flex flex-col md:flex-row items-center justify-between gap-4">
               {/* Search */}
               <div className="relative w-full md:max-w-xs">
                 <label htmlFor="searchQuery" className="sr-only">Cari file</label>
@@ -520,7 +520,7 @@ export default function DashboardClient({ user, telegramSession, initialFiles }:
                   placeholder="Cari file..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 bg-zinc-950/80 border border-zinc-800 rounded-xl text-sm placeholder:text-zinc-600 focus:outline-none focus:border-blue-500/80 transition-colors"
+                  className="w-full pl-10 pr-4 py-2 bg-zinc-950 border border-zinc-800 rounded-xl text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-hidden focus:border-blue-500 focus:ring-2 focus:ring-blue-500/40 transition-colors"
                 />
               </div>
 
@@ -529,19 +529,19 @@ export default function DashboardClient({ user, telegramSession, initialFiles }:
                 <div className="flex bg-zinc-950 border border-zinc-800 rounded-xl p-0.5">
                   <button
                     onClick={() => setViewMode("grid")}
-                    className={`p-2 rounded-lg transition-all ${viewMode === "grid" ? "bg-zinc-800 text-zinc-100" : "text-zinc-500 hover:text-zinc-300"}`}
+                    className={`p-2 rounded-lg focus-visible:ring-2 focus-visible:ring-blue-500 focus:outline-hidden transition-all ${viewMode === "grid" ? "bg-zinc-800 text-zinc-100" : "text-zinc-400 hover:text-zinc-200"}`}
                   >
                     <Grid className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => setViewMode("list")}
-                    className={`p-2 rounded-lg transition-all ${viewMode === "list" ? "bg-zinc-800 text-zinc-100" : "text-zinc-500 hover:text-zinc-300"}`}
+                    className={`p-2 rounded-lg focus-visible:ring-2 focus-visible:ring-blue-500 focus:outline-hidden transition-all ${viewMode === "list" ? "bg-zinc-800 text-zinc-100" : "text-zinc-400 hover:text-zinc-200"}`}
                   >
                     <List className="w-4 h-4" />
                   </button>
                 </div>
 
-                <label className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-sm font-bold shadow-lg shadow-blue-600/10 hover:shadow-blue-500/20 active:scale-[0.98] transition-all cursor-pointer">
+                <label className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2 focus-within:ring-offset-zinc-950 text-white rounded-xl text-sm font-bold shadow-lg shadow-blue-600/10 hover:shadow-blue-500/20 active:scale-[0.98] transition-all cursor-pointer">
                   {isUploading ? (
                     <>
                       <Loader2 className="w-4 h-4 animate-spin" /> Uploading...
@@ -563,10 +563,10 @@ export default function DashboardClient({ user, telegramSession, initialFiles }:
 
             {/* Files View */}
             {filteredFiles.length === 0 ? (
-              <div className="flex flex-col items-center justify-center py-20 text-center bg-zinc-900/10 border border-zinc-900 border-dashed rounded-3xl">
+              <div className="flex flex-col items-center justify-center py-20 text-center bg-zinc-900 border border-zinc-800 border-dashed rounded-3xl">
                 <Folder className="w-16 h-16 text-zinc-700 mb-4" />
                 <h3 className="font-bold text-lg text-zinc-300">Tidak ada file</h3>
-                <p className="text-zinc-500 text-sm mt-1 max-w-sm">
+                <p className="text-zinc-400 text-sm mt-1 max-w-sm">
                   {searchQuery ? "Pencarian Anda tidak menemukan hasil apapun." : "Mulai upload file Anda ke penyimpanan aman Telegram Cloud."}
                 </p>
               </div>
@@ -576,7 +576,7 @@ export default function DashboardClient({ user, telegramSession, initialFiles }:
                 {filteredFiles.map((file) => (
                   <div
                     key={file.id}
-                    className="bg-zinc-900/20 border border-zinc-900 rounded-2xl p-5 hover:border-zinc-800 transition-all duration-200 group flex flex-col justify-between min-h-[160px]"
+                    className="bg-zinc-900 border border-zinc-850 rounded-2xl p-5 hover:border-zinc-750 transition-all duration-200 group flex flex-col justify-between min-h-[160px]"
                   >
                     <div className="flex items-start gap-4">
                       {getFileIcon(file.mimeType)}
@@ -584,19 +584,19 @@ export default function DashboardClient({ user, telegramSession, initialFiles }:
                         <h4 className="font-semibold text-sm truncate text-zinc-200 group-hover:text-white" title={file.fileName}>
                           {file.fileName}
                         </h4>
-                        <span className="text-[11px] text-zinc-500 mt-0.5 block">{formatBytes(file.fileSize)}</span>
+                        <span className="text-[11px] text-zinc-400 mt-0.5 block">{formatBytes(file.fileSize)}</span>
                       </div>
                     </div>
 
-                    <div className="flex items-center justify-between border-t border-zinc-900/80 pt-4 mt-4 gap-2 opacity-90 group-hover:opacity-100 transition-opacity">
-                      <span className="text-[10px] text-zinc-600">
+                    <div className="flex items-center justify-between border-t border-zinc-800/80 pt-4 mt-4 gap-2 opacity-90 group-hover:opacity-100 transition-opacity">
+                      <span className="text-[10px] text-zinc-400">
                         {new Date(file.createdAt).toLocaleDateString("id-ID")}
                       </span>
 
                       <div className="flex gap-1.5">
                         <button
                           onClick={() => setEditingFile({ id: file.id, name: file.fileName })}
-                          className="p-1.5 hover:bg-zinc-800 text-zinc-400 hover:text-zinc-200 rounded-lg transition-colors"
+                          className="p-1.5 hover:bg-zinc-800 text-zinc-400 hover:text-zinc-200 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-900 focus:outline-hidden rounded-lg transition-colors"
                           title="Ubah Nama"
                         >
                           <Edit className="w-3.5 h-3.5" />
@@ -612,7 +612,7 @@ export default function DashboardClient({ user, telegramSession, initialFiles }:
                         </a>
                         <button
                           onClick={() => setDeleteConfirmFile(file)}
-                          className="p-1.5 hover:bg-red-500/10 text-zinc-500 hover:text-red-400 rounded-lg transition-colors"
+                          className="p-1.5 hover:bg-red-500/10 text-zinc-400 hover:text-red-400 focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-900 focus:outline-hidden rounded-lg transition-colors"
                           title="Hapus"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
@@ -628,7 +628,7 @@ export default function DashboardClient({ user, telegramSession, initialFiles }:
                 <div className="min-w-[600px] md:min-w-full">
                   <table className="w-full text-left text-sm text-zinc-400 border-collapse">
                     <thead>
-                      <tr className="border-b border-zinc-900 text-zinc-500 text-xs font-semibold bg-zinc-950/40">
+                      <tr className="border-b border-zinc-900 text-zinc-400 text-xs font-semibold bg-zinc-950/40">
                         <th className="p-4">Nama File</th>
                         <th className="p-4">Ukuran</th>
                         <th className="p-4">Tipe Mime</th>
@@ -644,8 +644,8 @@ export default function DashboardClient({ user, telegramSession, initialFiles }:
                             <span title={file.fileName}>{file.fileName}</span>
                           </td>
                           <td className="p-4 text-zinc-400">{formatBytes(file.fileSize)}</td>
-                          <td className="p-4 text-zinc-500 text-xs truncate max-w-[150px]">{file.mimeType}</td>
-                          <td className="p-4 text-zinc-500">
+                          <td className="p-4 text-zinc-400 text-xs truncate max-w-[150px]">{file.mimeType}</td>
+                          <td className="p-4 text-zinc-400">
                             {new Date(file.createdAt).toLocaleDateString("id-ID")}
                           </td>
                           <td className="p-4 text-right">
@@ -668,7 +668,7 @@ export default function DashboardClient({ user, telegramSession, initialFiles }:
                               </a>
                               <button
                                 onClick={() => setDeleteConfirmFile(file)}
-                                className="p-1.5 hover:bg-red-500/10 text-zinc-500 hover:text-red-400 rounded-lg transition-colors"
+                                className="p-1.5 hover:bg-red-500/10 text-zinc-400 hover:text-red-400 focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-900 focus:outline-hidden rounded-lg transition-colors"
                                 title="Hapus"
                               >
                                 <Trash2 className="w-4 h-4" />
@@ -692,24 +692,24 @@ export default function DashboardClient({ user, telegramSession, initialFiles }:
           <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 max-w-md w-full shadow-2xl flex flex-col gap-4">
             <h3 className="text-lg font-bold text-zinc-200">Ubah Nama File</h3>
             <div className="flex flex-col gap-1.5">
-              <label className="text-zinc-500 text-xs font-semibold uppercase tracking-wider">Nama Baru</label>
+              <label className="text-zinc-400 text-xs font-semibold uppercase tracking-wider">Nama Baru</label>
               <input
                 type="text"
                 value={editingFile.name}
                 onChange={(e) => setEditingFile({ ...editingFile, name: e.target.value })}
-                className="w-full px-4 py-2 bg-zinc-950 border border-zinc-800 rounded-xl text-sm placeholder:text-zinc-600 focus:outline-none focus:border-blue-500/80 transition-colors text-zinc-200"
+                className="w-full px-4 py-2 bg-zinc-950 border border-zinc-800 rounded-xl text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-hidden focus:border-blue-500 focus:ring-2 focus:ring-blue-500/40 transition-colors text-zinc-200"
               />
             </div>
             <div className="flex justify-end gap-2 mt-2">
               <button
                 onClick={() => setEditingFile(null)}
-                className="px-4 py-2 bg-zinc-950 border border-zinc-800 rounded-xl text-sm text-zinc-400 hover:border-zinc-700 hover:text-zinc-200 transition-all font-semibold"
+                className="px-4 py-2 bg-zinc-950 border border-zinc-800 rounded-xl text-sm text-zinc-400 hover:border-zinc-700 hover:text-zinc-200 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-900 focus:outline-hidden transition-all font-semibold"
               >
                 Batal
               </button>
               <button
                 onClick={handleRename}
-                className="px-5 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-sm font-bold shadow-lg transition-all"
+                className="px-5 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-sm font-bold shadow-lg focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-900 focus:outline-hidden transition-all"
               >
                 Simpan
               </button>
@@ -726,7 +726,7 @@ export default function DashboardClient({ user, telegramSession, initialFiles }:
               <ShieldAlert className="w-10 h-10 shrink-0" />
               <div>
                 <h3 className="text-lg font-bold text-zinc-200">Hapus File?</h3>
-                <p className="text-zinc-500 text-sm mt-1 leading-relaxed">
+                <p className="text-zinc-400 text-sm mt-1 leading-relaxed">
                   Apakah Anda yakin ingin menghapus <strong className="text-zinc-300">{deleteConfirmFile.fileName}</strong>? File ini akan terhapus selamanya dari metadata platform dan akun Telegram Anda.
                 </p>
               </div>
@@ -734,13 +734,13 @@ export default function DashboardClient({ user, telegramSession, initialFiles }:
             <div className="flex justify-end gap-2 mt-2">
               <button
                 onClick={() => setDeleteConfirmFile(null)}
-                className="px-4 py-2 bg-zinc-950 border border-zinc-800 rounded-xl text-sm text-zinc-400 hover:border-zinc-700 hover:text-zinc-200 transition-all font-semibold"
+                className="px-4 py-2 bg-zinc-950 border border-zinc-800 rounded-xl text-sm text-zinc-400 hover:border-zinc-700 hover:text-zinc-200 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-900 focus:outline-hidden transition-all font-semibold"
               >
                 Batal
               </button>
               <button
                 onClick={handleDelete}
-                className="px-5 py-2 bg-red-600 hover:bg-red-500 text-white rounded-xl text-sm font-bold shadow-lg transition-all"
+                className="px-5 py-2 bg-red-600 hover:bg-red-500 text-white rounded-xl text-sm font-bold shadow-lg focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-900 focus:outline-hidden transition-all"
               >
                 Hapus
               </button>

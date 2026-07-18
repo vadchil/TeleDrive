@@ -7,7 +7,7 @@
 [![TypeScript](https://img.shields.io/badge/Language-TypeScript-blue?logo=typescript)](https://typescriptlang.org)
 [![Security](https://img.shields.io/badge/Security-Hardened-brightgreen?logo=securely)](#security--cryptography)
 
-TeleStorage (Glorydrive) adalah platform **Cloud Storage SaaS** berkecepatan tinggi yang memanfaatkan infrastruktur Telegram Cloud untuk menyediakan penyimpanan tak terbatas secara gratis. Platform ini dirancang seperti Google Drive, dilengkapi manajemen file lengkap, pembagian tautan aman, enkripsi kredensial lokal, dan panel administrasi.
+TeleStorage (Glorydrive) adalah platform **Cloud Storage SaaS** berkecepatan tinggi yang memanfaatkan infrastruktur Telegram Cloud untuk menyediakan penyimpanan tak terbatas secara gratis. Platform ini dirancang dengan manajemen file lengkap, pembagian tautan aman, enkripsi kredensial lokal, dan panel administrasi.
 
 ---
 
