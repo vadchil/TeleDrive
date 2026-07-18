@@ -49,6 +49,8 @@ export function decrypt(text: string): string {
     decrypted = Buffer.concat([decrypted, decipher.final()]);
 
     return decrypted.toString("utf8");
+  } else if (parts.length === 1 && text.startsWith("1")) {
+    return text;
   } else {
     throw new Error("Invalid encrypted format");
   }

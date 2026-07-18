@@ -69,6 +69,10 @@ test("enkripsi dan dekripsi mendukung format baru (GCM) dan format lama (CBC)", 
   // 3. Format Tidak Valid
   assert.throws(() => decrypt("hanya-satu-bagian"), /Invalid encrypted format/);
   assert.throws(() => decrypt("bagian1:bagian2:bagian3:bagian4"), /Invalid encrypted format/);
+
+  // 4. Format Legacy Unencrypted (tanpa enkripsi)
+  const legacyUnencrypted = "1A2B3C4D5E6F7G8H9I0J_this_is_a_telegram_session_string_sample";
+  assert.equal(decrypt(legacyUnencrypted), legacyUnencrypted);
 });
 
 
